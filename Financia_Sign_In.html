@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href=""><!--Financia logo not yet available-->
+    <link rel="stylesheet" href="Financia CSS/Financia_Sign_In_Css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Financia</title>
+    <style>
+                @media screen and (max-width: 1920px) and (max-height: 1080px)
+        {
+            body
+            {
+                background: url(Financia_Sign_In_Images/2328116.jpg) no-repeat fixed;
+                background-size: cover;
+            }
+        }
+        @font-face /*This will be served as font style for our website*/
+        {
+            font-family: Roboto1;
+            src: url(Financia_Fonts/roboto/Roboto-Light.ttf);
+        }
+        @font-face /*This will be served as font style for our website*/
+        {
+            font-family: Roboto2;
+            src: url(Financia_Fonts/roboto/Roboto-Bold.ttf);
+        }
+        @font-face /*This will be served as font style for our website*/
+        {
+            font-family: Roboto3;
+            src: url(Financia_Fonts/roboto/Roboto-Black.ttf);
+        }
+        @font-face 
+        {
+            font-family: Coolvetica1;
+            src: url(Financia_Fonts/coolvetica/coolvetica\ condensed\ rg.otf);
+        }
+        @font-face 
+        {
+            font-family: Coolvetica2;
+            src: url(Financia_Fonts/coolvetica/coolvetica\ rg.otf);
+        }
+
+    </style>
+</head>
+<body>
+    <table class="table1">
+        <tr>
+            <td class="Financia_box"><a class="Financia" href="Financia.html">Financia</a></td>
+            <td style="width: 75vw;"></td>
+            <td class="notification_box"><img class="notification_button" src="Financia_Home_Page_Images/Notification bell.png" alt=""></td>
+            <td class="sign_box"><img class="signin_button" src="Financia_Home_Page_Images/Sign in logo.png" alt=""></td>
+            <td class="settings_box"><img class="settings_button" src="Financia_Home_Page_Images/Settings logo.png" alt=""></td>
+        </tr>
+    </table>
+    <table class="table2">
+        <tr>
+            <td style="width: 5vw;"></td>
+            <td class="nav_link_box"><a class="nav_links" href="">Dashboard </a></td>
+            <td class="nav_link_box"><a class="nav_links" href="">History </a></td>
+            <td class="nav_link_box"><a class="nav_links" href="">Progress </a></td>
+            <td class="nav_link_box"><a class="nav_links" href="">Insights </a></td>
+            <td class="nav_link_box"><a class="nav_links" href="">News </a></td>
+            <td style="width: 5vw;"></td>
+        </tr>
+    </table>
+
+     
+     <div class="login-container">
+        <div class="login-box">
+            <form action="">
+                <table>
+                    <tr class="input-group" >
+                        <td><label for="username">Email / Username</label></td>
+                    </tr>
+                    <table>
+                        <tr class="input-group">
+                            <td>
+                                <div class="input-container">
+                                    <i class="fa-regular fa-user"></i>
+                                    <input type="text" id="username" placeholder="Email / Username" required>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="input-group">
+                            <td><label for="password">Password</label></td>
+                        </tr>
+                        <tr class="input-group">
+                            <td>
+                                <div class="input-container">
+                                    <i class="fa fa-lock"></i>
+                                    <input type="password" id="password" placeholder="Password" required>
+                                    <i class="fa-hide"></i>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                   
+                    <tr>
+                        <td style="padding: 0px;"><hr class="divider"></td> 
+                    </tr>
+
+                    <tr>
+                        <td><input class="login-btn" type="submit" value="Log In" ></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+</body>
