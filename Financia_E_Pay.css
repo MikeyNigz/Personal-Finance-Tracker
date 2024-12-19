@@ -91,42 +91,34 @@
     }
 
     .table2 {
-        width: 100%;
-        margin: 20px 0;
-        position: relative;
-        z-index: 10;
-    }
-
-    .table2 th, .table2 td {
-        padding: 12px;
-        border-bottom: 1px solid rgba(138, 36, 234, 0.3);
-        color: #fff;
-        text-align: left;
-    }
-
-    .table2 th {
-        background-color: #6A2BC2;
-        color: #fff;
-        font-weight: bold;
-    }
-
-    .table2 tbody tr:hover {
-        background-color: rgba(138, 36, 234, 0.2);
-    }
-
-    .table2 .action-icons {
+        background-color: black;
+        height: 3vw;
+        margin: 0 -0.44vw 0 -0.44vw;
+        width: 99.10vw;
         display: flex;
-        gap: 10px;
+        justify-content: space-around;
         align-items: center;
     }
 
-    .table2 .icon {
-        cursor: pointer;
-        color: #fff;
+    .td_link {
+        text-align: center;
+        width: auto;
     }
 
-    .table2 .icon:hover {
-        color: grey;
+    .nav_link {
+        padding: 0.7vw 1.5vw;
+        margin: 0 5vw;
+        color: rgb(146, 141, 241);
+        font: normal 600 1.3vw Roboto1;
+        text-align: center;
+        text-decoration: none;
+        /*padding: 0.5vw 1vw;*/
+        transition: color 0.3s, text-shadow 0.3s;
+    }
+
+    .nav_link:hover {
+        color: rgb(236, 234, 243);
+        text-shadow: 0 0 0.5vw rgb(138, 36, 234);
     }
 
     .td_select {

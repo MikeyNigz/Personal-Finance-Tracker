@@ -69,7 +69,13 @@
             <td class="e-pay_box">
                 <img class="e-pay_button" id="epayBtn" src="Financia_Home_Page_Images/plus.png" alt="">
                 <div class="dropdown-menu" id="dropdownMenuEpay">
-                    <a href="Financia-E-Pay.php">E-Pay</a>
+                    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+                        <a href="Financia-E-Pay.php">E-Pay</a>
+                        <a href="Financia_Goals.php">Goals</a>
+                    <?php else: ?>
+                        <a href="Financia_Sign_In.php">E-Pay</a>
+                        <a href="Financia_Sign_In.php">Goals</a>
+                    <?php endif; ?>
                 </div>
             </td>
 

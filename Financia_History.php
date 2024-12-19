@@ -110,6 +110,8 @@
         <div class="filter-bar">
             <select>
                 <option>Sort by</option>
+                <option>Income</option>
+                <option>Expense</option>
             </select>
             <button>✔</button>
             <button>✖</button>
@@ -124,37 +126,8 @@
                     <th>More Info</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Grocery Shopping</td>
-                    <td>Expense</td>
-                    <td>2024-11-10 14:30</td>
-                    <td>View</td>
-                </tr>
-                <tr>
-                    <td>Salary Payment</td>
-                    <td>Income</td>
-                    <td>2024-11-01 09:00</td>
-                    <td>View</td>
-                </tr>
-                <tr>
-                    <td>Gym Membership</td>
-                    <td>Expense</td>
-                    <td>2024-11-05 18:00</td>
-                    <td>View</td>
-                </tr>
-                <tr>
-                    <td>Freelance Project</td>
-                    <td>Income</td>
-                    <td>2024-11-07 15:45</td>
-                    <td>View</td>
-                </tr>
-                <tr>
-                    <td>Dinner with Friends</td>
-                    <td>Expense</td>
-                    <td>2024-11-09 20:15</td>
-                    <td>View</td>
-                </tr>
+            <tbody id="activityTableBody">
+                <!-- Activity rows will be populated dynamically -->
             </tbody>
         </table>
     </div>
@@ -213,6 +186,127 @@
             dropdownMenuEpay.style.display = 'none';
             dropdownMenuAccount.style.display = 'none';
         });
+    </script>
+
+    <div class="history-container">
+        <div class="date-range">
+            <select id="transactionTypeFilter">
+                <option value="">Select Transaction Type</option>
+                <option value="Income">Income</option>
+                <option value="Expense">Expense</option>
+            </select>
+            <input type="text" id="startDate" placeholder="Start Date">
+            <input type="text" id="endDate" placeholder="End Date">
+            <button id="filterBtn">Filter</button>
+        </div>
+        <table>
+            <tr>
+                <th>Transaction Description</th>
+                <th>Amount</th>
+                <th>Time</th>
+                <th>Date</th>
+            </tr>
+            <tbody id="transactionTableBody">
+                <!-- Transaction rows will be populated dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', loadTransactions);
+
+        function loadTransactions(transactionType = '') {
+            fetch('backend/get_transactions.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const tableBody = document.getElementById('transactionTableBody');
+                        tableBody.innerHTML = ''; // Clear existing rows
+
+                        const filteredTransactions = data.transactions.filter(transaction => {
+                            if (transactionType === 'Income' && transaction.transaction_type === 'Deposit') {
+                                return true; // Include deposits for Income
+                            }
+                            if (transactionType === 'Expense' && transaction.transaction_type === 'Withdraw') {
+                                return true; // Include withdrawals for Expense
+                            }
+                            return false; // Exclude all other transactions
+                        });
+
+                        filteredTransactions.forEach(transaction => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${transaction.description || '-'}</td>
+                                <td>₱ ${parseFloat(transaction.amount).toLocaleString('en-PH', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                })}</td>
+                                <td>${new Date(transaction.created_at).toLocaleTimeString('en-PH', {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}</td>
+                                <td>${new Date(transaction.created_at).toLocaleDateString('en-PH')}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+
+                        // If no transactions are found, display a message
+                        if (filteredTransactions.length === 0) {
+                            tableBody.innerHTML = `
+                                <tr>
+                                    <td colspan="4" style="text-align: center;">No transactions found</td>
+                                </tr>
+                            `;
+                        }
+                    } else {
+                        console.error('Failed to load transactions:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching transactions:', error);
+                });
+        }
+
+        document.getElementById('filterBtn').addEventListener('click', () => {
+            const transactionType = document.getElementById('transactionTypeFilter').value;
+            loadTransactions(transactionType); // Load transactions based on the selected type
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', loadActivityLog);
+
+        function loadActivityLog() {
+            fetch('backend/get_transactions.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const tableBody = document.getElementById('activityTableBody');
+                        tableBody.innerHTML = ''; // Clear existing rows
+
+                        data.transactions.forEach(transaction => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${transaction.description || '-'}</td>
+                                <td>${transaction.transaction_type || '-'}</td>
+                                <td>${new Date(transaction.created_at).toLocaleString('en-PH')}</td>
+                                <td><button onclick="viewMoreInfo(${transaction.id})">View</button></td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        console.error('Failed to load activity log:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching activity log:', error);
+                });
+        }
+
+        function viewMoreInfo(transactionId) {
+            // Implement the logic to view more information about the transaction
+            alert('More info for transaction ID: ' + transactionId);
+        }
     </script>
 </body>
 

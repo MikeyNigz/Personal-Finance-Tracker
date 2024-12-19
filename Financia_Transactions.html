@@ -109,10 +109,10 @@
     </div>
     <div class="transactions-header">
         <div class="filter-bar">
-            <select>
+            <select id="dateFilter">
                 <option>Filter by Date</option>
             </select>
-            <select>
+            <select id="typeSort">
                 <option>Sort by Type</option>
             </select>
         </div>
@@ -131,82 +131,8 @@
                 <th>Delete</th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td>
-                    <i class="fas fa-edit icon" title="Edit"></i>
-                </td>
-                <td>Paid Electricity Bill</td>
-                <td>2024-12-31</td>
-                <td>12:45 PM</td>
-                <td>₱2,000</td>
-                <td>Paid via credit card</td>
-                <td>Expenses</td>
-                <td>Credit Card</td>
-                <td>
-                    <i class="fas fa-trash icon" title="Delete"></i>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <i class="fas fa-edit icon" title="Edit"></i>
-                </td>
-                <td>Salary</td>
-                <td>2024-11-15</td>
-                <td>1:30 PM</td>
-                <td>₱20,000</td>
-                <td>Monthly Income</td>
-                <td>Income</td>
-                <td>Bank Transfer</td>
-                <td>
-                    <i class="fas fa-trash icon" title="Delete"></i>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <i class="fas fa-edit icon" title="Edit"></i>
-                </td>
-                <td>Groceries</td>
-                <td>2025-06-01</td>
-                <td>9:15 AM</td>
-                <td>₱5,000</td>
-                <td>Paid via credit card</td>
-                <td>Expenses</td>
-                <td>Debit Card</td>
-                <td>
-                    <i class="fas fa-trash icon" title="Delete"></i>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <i class="fas fa-edit icon" title="Edit"></i>
-                </td>
-                <td>Freelance Payment</td>
-                <td>2025-12-31</td>
-                <td>10:00 AM</td>
-                <td>₱8,000</td>
-                <td>Received payment</td>
-                <td>Income</td>
-                <td>Bank Transfer</td>
-                <td>
-                    <i class="fas fa-trash icon" title="Delete"></i>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <i class="fas fa-edit icon" title="Edit"></i>
-                </td>
-                <td>Movie Tickets</td>
-                <td>2024-12-01</td>
-                <td>11:20 AM</td>
-                <td>₱600</td>
-                <td>Paid via cash</td>
-                <td>Expenses</td>
-                <td>Cash</td>
-                <td>
-                    <i class="fas fa-trash icon" title="Delete"></i>
-                </td>
-            </tr>
+        <tbody id="transactionTableBody">
+            <!-- Transactions will be populated here -->
         </tbody>
     </table>
 
@@ -264,6 +190,48 @@
             dropdownMenuEpay.style.display = 'none';
             dropdownMenuAccount.style.display = 'none';
         });
+
+        function fetchTransactions() {
+            fetch('backend/get_transactions.php') // Adjust the URL to your backend endpoint
+                .then(response => response.json())
+                .then(data => {
+                    const tableBody = document.getElementById('transactionTableBody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+
+                    if (data.success) {
+                        data.transactions.forEach(transaction => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td><i class="fas fa-edit icon" title="Edit"></i></td>
+                                <td>${transaction.description || '-'}</td>
+                                <td>${new Date(transaction.created_at).toLocaleDateString('en-PH')}</td>
+                                <td>${new Date(transaction.created_at).toLocaleTimeString('en-PH')}</td>
+                                <td>₱ ${parseFloat(transaction.amount).toLocaleString('en-PH', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                })}</td>
+                                <td>${transaction.details || '-'}</td>
+                                <td>${transaction.transaction_type}</td>
+                                <td>${transaction.payment_method === 'bdo' ? 'Bank Transfer' : 'E-Wallet'}</td>
+                                <td><i class="fas fa-trash icon" title="Delete" onclick="deleteTransaction(${transaction.id})"></i></td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    } else {
+                        tableBody.innerHTML = `
+                            <tr>
+                                <td colspan="9" style="text-align: center;">No transactions found</td>
+                            </tr>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching transactions:', error);
+                });
+        }
+
+        // Call fetchTransactions when the page loads
+        document.addEventListener('DOMContentLoaded', fetchTransactions);
     </script>
 
 </body>

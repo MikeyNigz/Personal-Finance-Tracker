@@ -108,115 +108,28 @@ require_once 'backend/check_session.php';
         </form>
     </table>
 
-    <!-- Balance Overview Section -->
-    <section class="balance-overview">
-        <h2>Balance Overview</h2>
-        <div class="overview-container">
-            <div class="chart">
-                <button class="chart-btn">Line Chart</button>
-                <button class="chart-btn">Year</button>
-                <img src="line-chart-placeholder.png" alt="Line Chart">
-                <p>Overall Assets: ₱3,345,000<br>Overall Liabilities: ₱1,235,000<br>Overall Net Worth: ₱2,110,000</p>
-            </div>
-            <div class="overview-table">
-                <div class="date-range">
-                    <input type="text" placeholder="Start Month & Year">
-                    <input type="text" placeholder="End Month & Year">
-                </div>
-                <table>
-                    <tr>
-                        <th>Assets</th>
-                        <th>Liabilities</th>
-                        <th>Net Worth</th>
-                        <th>Month</th>
-                    </tr>
-                    <tr>
-                        <td>₱50,000</td>
-                        <td>₱10,000</td>
-                        <td>₱40,000</td>
-                        <td>January</td>
-                    </tr>
-                    <tr>
-                        <td>₱100,000</td>
-                        <td>₱30,000</td>
-                        <td>₱70,000</td>
-                        <td>February</td>
-                    </tr>
-                    <tr>
-                        <td>₱200,000</td>
-                        <td>₱150,000</td>
-                        <td>₱70,000</td>
-                        <td>March</td>
-                    </tr>
-                    <tr>
-                        <td>₱500,000</td>
-                        <td>₱100,000</td>
-                        <td>₱400,000</td>
-                        <td>April</td>
-                    </tr>
-                    <tr>
-                        <td>₱300,000</td>
-                        <td>₱250,000</td>
-                        <td>₱50,000</td>
-                        <td>May</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </section>
-
     <!-- Income & Expenses Section -->
     <section class="income-expenses">
         <h2>Income & Expenses</h2>
         <div class="expenses-container">
             <div class="chart">
-                <button class="chart-btn">Pie Chart</button>
-                <button class="chart-btn">Month</button>
-                <img src="pie-chart-placeholder.png" alt="Pie Chart">
-                <p>Overall Income: ₱8200<br>Overall Expenses: ₱4500<br>Overall Profit: ₱3700</p>
+                <p>Overall Income: ₱<span id="overallIncome">0</span><br>Overall Expenses: ₱<span id="overallExpenses">0</span><br>Overall Profit: ₱<span id="overallProfit">0</span></p>
             </div>
             <div class="expenses-table">
                 <div class="date-range">
-                    <input type="text" placeholder="Start Date">
-                    <input type="text" placeholder="End Date">
+                    <input type="date" id="startDateExpenses" placeholder="Start Date">
+                    <input type="date" id="endDateExpenses" placeholder="End Date">
                 </div>
                 <table>
                     <tr>
+                        <th>Date</th>
                         <th>Income</th>
                         <th>Expenses</th>
                         <th>Profit</th>
-                        <th>Date</th>
                     </tr>
-                    <tr>
-                        <td>₱1500</td>
-                        <td>₱800</td>
-                        <td>₱700</td>
-                        <td>2024-10-01</td>
-                    </tr>
-                    <tr>
-                        <td>₱2000</td>
-                        <td>₱1200</td>
-                        <td>₱800</td>
-                        <td>2024-10-02</td>
-                    </tr>
-                    <tr>
-                        <td>₱1800</td>
-                        <td>₱1000</td>
-                        <td>₱800</td>
-                        <td>2024-10-03</td>
-                    </tr>
-                    <tr>
-                        <td>₱1200</td>
-                        <td>₱600</td>
-                        <td>₱600</td>
-                        <td>2024-10-04</td>
-                    </tr>
-                    <tr>
-                        <td>₱1700</td>
-                        <td>₱900</td>
-                        <td>₱800</td>
-                        <td>2024-10-05</td>
-                    </tr>
+                    <tbody id="incomeExpensesTableBody">
+                        <!-- Income and expenses rows will be populated dynamically -->
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -227,11 +140,13 @@ require_once 'backend/check_session.php';
         <h2>Transaction History</h2>
         <div class="history-container">
             <div class="date-range">
-                <select>
-                    <option>Select Transaction Type</option>
+                <select id="transactionTypeFilter">
+                    <option value="">Select Transaction Type</option>
+                    <option value="Income">Income</option>
+                    <option value="Expense">Expense</option>
                 </select>
-                <input type="text" placeholder="Start Date">
-                <input type="text" placeholder="End Date">
+                <input type="date" id="startDate" placeholder="Start Date">
+                <input type="date" id="endDate" placeholder="End Date">
             </div>
             <table>
                 <tr>
@@ -240,36 +155,9 @@ require_once 'backend/check_session.php';
                     <th>Time</th>
                     <th>Date</th>
                 </tr>
-                <tr>
-                    <td>Salary (Income)</td>
-                    <td>₱1500</td>
-                    <td>09:30 am</td>
-                    <td>2024-10-01</td>
-                </tr>
-                <tr>
-                    <td>Groceries (Expense)</td>
-                    <td>₱120</td>
-                    <td>1:45 pm</td>
-                    <td>2024-10-02</td>
-                </tr>
-                <tr>
-                    <td>Savings Deposit</td>
-                    <td>₱300</td>
-                    <td>11:00 am</td>
-                    <td>2024-10-03</td>
-                </tr>
-                <tr>
-                    <td>Dining Out (Expense)</td>
-                    <td>₱60</td>
-                    <td>4:30 pm</td>
-                    <td>2024-10-04</td>
-                </tr>
-                <tr>
-                    <td>Investment Return (Income)</td>
-                    <td>₱200</td>
-                    <td>5:30 am</td>
-                    <td>2024-10-05</td>
-                </tr>
+                <tbody id="transactionTableBody">
+                    <!-- Transaction rows will be populated dynamically -->
+                </tbody>
             </table>
         </div>
     </section>
@@ -327,6 +215,141 @@ require_once 'backend/check_session.php';
             dropdownMenuEpay.style.display = 'none';
             dropdownMenuAccount.style.display = 'none';
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTransactions(); // Load all transactions by default
+        });
+
+        function loadTransactions() {
+            const transactionType = document.getElementById('transactionTypeFilter').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+
+            fetch('backend/get_transactions.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const tableBody = document.getElementById('transactionTableBody');
+                        tableBody.innerHTML = ''; // Clear existing rows
+
+                        const filteredTransactions = data.transactions.filter(transaction => {
+                            const transactionDate = new Date(transaction.created_at);
+                            const isWithinDateRange = (!startDate || transactionDate >= new Date(startDate)) &&
+                                                      (!endDate || transactionDate <= new Date(endDate));
+
+                            // Include all transactions if no type is selected
+                            if (!transactionType) {
+                                return isWithinDateRange; // Include all transactions within the date range
+                            }
+
+                            if (transactionType === 'Income' && transaction.transaction_type === 'Deposit' && isWithinDateRange) {
+                                return true; // Include deposits for Income
+                            }
+                            if (transactionType === 'Expense' && transaction.transaction_type === 'Withdraw' && isWithinDateRange) {
+                                return true; // Include withdrawals for Expense
+                            }
+                            return false; // Exclude all other transactions
+                        });
+
+                        filteredTransactions.forEach(transaction => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${transaction.description || '-'}</td>
+                                <td>₱ ${parseFloat(transaction.amount).toLocaleString('en-PH', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2
+                                })}</td>
+                                <td>${new Date(transaction.created_at).toLocaleTimeString('en-PH', {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}</td>
+                                <td>${new Date(transaction.created_at).toLocaleDateString('en-PH')}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+
+                        // If no transactions are found, display a message
+                        if (filteredTransactions.length === 0) {
+                            tableBody.innerHTML = `
+                                <tr>
+                                    <td colspan="4" style="text-align: center;">No transactions found</td>
+                                </tr>
+                            `;
+                        }
+                    } else {
+                        console.error('Failed to load transactions:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching transactions:', error);
+                });
+        }
+
+        // Load transactions on change of filters
+        document.getElementById('transactionTypeFilter').addEventListener('change', loadTransactions);
+        document.getElementById('startDate').addEventListener('change', loadTransactions);
+        document.getElementById('endDate').addEventListener('change', loadTransactions);
+
+        document.addEventListener('DOMContentLoaded', loadIncomeExpenses);
+
+        function loadIncomeExpenses() {
+            fetch('backend/get_transactions.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const incomeExpensesTableBody = document.getElementById('incomeExpensesTableBody');
+                        incomeExpensesTableBody.innerHTML = ''; // Clear existing rows
+
+                        const incomeData = {};
+                        const expenseData = {};
+
+                        data.transactions.forEach(transaction => {
+                            const transactionDate = new Date(transaction.created_at).toLocaleDateString('en-PH');
+                            if (transaction.transaction_type === 'Deposit') {
+                                incomeData[transactionDate] = (incomeData[transactionDate] || 0) + parseFloat(transaction.amount);
+                            } else if (transaction.transaction_type === 'Withdraw') {
+                                expenseData[transactionDate] = (expenseData[transactionDate] || 0) + parseFloat(transaction.amount);
+                            }
+                        });
+
+                        const allDates = new Set([...Object.keys(incomeData), ...Object.keys(expenseData)]);
+                        let overallIncome = 0;
+                        let overallExpenses = 0;
+
+                        allDates.forEach(date => {
+                            const income = incomeData[date] || 0;
+                            const expenses = expenseData[date] || 0;
+                            const profit = income - expenses;
+
+                            overallIncome += income;
+                            overallExpenses += expenses;
+
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${date}</td>
+                                <td>₱ ${income.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                                <td>₱ ${expenses.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                                <td>₱ ${profit.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                            `;
+                            incomeExpensesTableBody.appendChild(row);
+                        });
+
+                        // Update overall totals
+                        document.getElementById('overallIncome').textContent = overallIncome.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        document.getElementById('overallExpenses').textContent = overallExpenses.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        document.getElementById('overallProfit').textContent = (overallIncome - overallExpenses).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    } else {
+                        console.error('Failed to load transactions:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching transactions:', error);
+                });
+        }
+
+        // Load income and expenses on date change
+        document.getElementById('startDateExpenses').addEventListener('change', loadIncomeExpenses);
+        document.getElementById('endDateExpenses').addEventListener('change', loadIncomeExpenses);
     </script>
 
 </body>

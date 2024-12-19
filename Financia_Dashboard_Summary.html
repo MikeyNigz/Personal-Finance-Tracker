@@ -126,51 +126,11 @@
                     <th>Income</th>
                     <th>Expenses</th>
                     <th>Net Profit</th>
-                    <th>Savings</th>
                     <th>Balance</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>June 2024</td>
-                    <td>₱ 5000</td>
-                    <td>₱ 3200</td>
-                    <td>₱ 1800</td>
-                    <td>₱ 500</td>
-                    <td>₱ 1,300</td>
-                </tr>
-                <tr>
-                    <td>July 2024</td>
-                    <td>₱ 4800</td>
-                    <td>₱ 3100</td>
-                    <td>₱ 1700</td>
-                    <td>₱ 400</td>
-                    <td>₱ 2,600</td>
-                </tr>
-                <tr>
-                    <td>August 2024</td>
-                    <td>₱ 5200</td>
-                    <td>₱ 3400</td>
-                    <td>₱ 1800</td>
-                    <td>₱ 600</td>
-                    <td>₱ 3,800</td>
-                </tr>
-                <tr>
-                    <td>September 2024</td>
-                    <td>₱ 5100</td>
-                    <td>₱ 3300</td>
-                    <td>₱ 1800</td>
-                    <td>₱ 700</td>
-                    <td>₱ 4,900</td>
-                </tr>
-                <tr>
-                    <td>October 2024</td>
-                    <td>₱ 5400</td>
-                    <td>₱ 3500</td>
-                    <td>₱ 1900</td>
-                    <td>₱ 600</td>
-                    <td>₱ 6,200</td>
-                </tr>
+                <!-- Rows will be populated dynamically -->
             </tbody>
         </table>
     </div>
@@ -191,25 +151,20 @@
         </div>
         <div class="content">
             <div class="box">
-                <h3>Total Income : ₱ 25,500</h3>
-                <p>Over the five months, the total income from all sources amounted to ₱25,500. This includes salary,
-                    freelance work, investment returns, or other income sources.</p>
+                <h3>Total Income : <span id="totalIncome">₱ 0.00</span></h3>
+                <p>Over the five months, the total income from all sources amounted to <span id="totalIncomeText">₱0.00</span>.</p>
             </div>
             <div class="box">
-                <h3>Total Net Profit : ₱ 9,000</h3>
-                <p>The net profit, which is the difference between income and expenses, totaled ₱9,000 across the five
-                    months. This shows that after covering all expenses, there was a healthy margin of leftover income
-                    each month.</p>
+                <h3>Total Net Profit : <span id="totalNetProfit">₱ 0.00</span></h3>
+                <p>The net profit, which is the difference between income and expenses, totaled <span id="totalNetProfitText">₱0.00</span> across the five months.</p>
             </div>
             <div class="box">
-                <h3>Total Expenses : ₱ 16,500</h3>
-                <p>Total expenses for the five-month period were ₱16,500, which includes fixed and variable costs such
-                    as rent, utilities, groceries, and discretionary spending.</p>
+                <h3>Total Expenses : <span id="totalExpenses">₱ 0.00</span></h3>
+                <p>Total expenses for the five-month period were <span id="totalExpensesText">₱0.00</span>.</p>
             </div>
             <div class="box">
                 <h3>Total Savings : ₱ 2,800</h3>
-                <p>From the net profit, a total of ₱2,800 was set aside in savings over the five months, showing
-                    disciplined savings behavior.</p>
+                <p>From the net profit, a total of ₱2,800 was set aside in savings over the five months, showing disciplined savings behavior.</p>
             </div>
         </div>
     </div>
@@ -239,71 +194,8 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-
-                    <td>
-                        <i class="fa fa-edit" title="Edit" style="cursor: pointer;"></i>
-                    </td>
-                    <td>Emergency Fund</td>
-                    <td>₱ 5,000</td>
-                    <td>2024-12-31</td>
-                    <td>60%</td>
-
-                    <td>
-                        <i class="fa fa-trash" title="Delete" style="cursor: pointer;"></i>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <i class="fa fa-edit" title="Edit" style="cursor: pointer;"></i>
-                    </td>
-                    <td>Credit Card Repayment</td>
-                    <td>₱ 2,000</td>
-                    <td>2024-11-15</td>
-                    <td>45%</td>
-                    <td>
-                        <i class="fa fa-trash" title="Delete" style="cursor: pointer;"></i>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        <i class="fa fa-edit" title="Edit" style="cursor: pointer;"></i>
-                    </td>
-                    <td>Vacation Savings</td>
-                    <td>₱ 3,000</td>
-                    <td>2025-06-01</td>
-                    <td>25%</td>
-                    <td>
-                        <i class="fa fa-trash" title="Delete" style="cursor: pointer;"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <i class="fa fa-edit" title="Edit" style="cursor: pointer;"></i>
-                    </td>
-                    <td>Retirement Fund</td>
-                    <td>₱ 10,000</td>
-                    <td>2025-12-31</td>
-                    <td>35%</td>
-                    <td>
-                        <i class="fa fa-trash" title="Delete" style="cursor: pointer;"></i>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <i class="fa fa-edit" title="Edit" style="cursor: pointer;"></i>
-                    </td>
-                    <td>Side Hustle Income</td>
-                    <td>₱ 1,500</td>
-                    <td>2024-12-01</td>
-                    <td>50%</td>
-                    <td>
-                        <i class="fa fa-trash" title="Delete" style="cursor: pointer;"></i>
-                    </td>
-                </tr>
+            <tbody id="goalSummaryTableBody">
+                <!-- Goal rows will be populated dynamically -->
             </tbody>
         </table>
     </div>
@@ -361,6 +253,130 @@
         window.addEventListener('click', () => {
             dropdownMenuEpay.style.display = 'none';
             dropdownMenuAccount.style.display = 'none';
+        });
+
+        // Assuming you have a function to fetch transactions
+        function calculateMonthlyTotals(transactions) {
+            const monthlyData = {};
+
+            transactions.forEach(transaction => {
+                const date = new Date(transaction.created_at);
+                const month = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+                const amount = parseFloat(transaction.amount);
+
+                if (!monthlyData[month]) {
+                    monthlyData[month] = { income: 0, expenses: 0 };
+                }
+
+                if (transaction.transaction_type === 'Deposit') {
+                    monthlyData[month].income += amount;
+                } else if (transaction.transaction_type === 'Withdraw') {
+                    monthlyData[month].expenses += amount;
+                }
+            });
+
+            return monthlyData;
+        }
+
+        // Example usage after fetching transactions
+        fetch('backend/get_transactions.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const monthlyTotals = calculateMonthlyTotals(data.transactions);
+                    updateSummaryTable(monthlyTotals);
+                    updateOverallSummary(data.transactions); // Ensure this is called
+                }
+            });
+
+        function updateSummaryTable(monthlyTotals) {
+            const summaryTableBody = document.querySelector('.summary-table tbody');
+            summaryTableBody.innerHTML = ''; // Clear existing rows
+
+            for (const month in monthlyTotals) {
+                const income = monthlyTotals[month].income;
+                const expenses = monthlyTotals[month].expenses;
+                const netProfit = income - expenses;
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${month}</td>
+                    <td>₱ ${income.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>₱ ${expenses.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                    <td>₱ ${netProfit.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                `;
+                summaryTableBody.appendChild(row);
+            }
+        }
+
+        function updateOverallSummary(transactions) {
+            let totalIncome = 0;
+            let totalExpenses = 0;
+
+            transactions.forEach(transaction => {
+                if (transaction.transaction_type === 'Deposit') {
+                    totalIncome += parseFloat(transaction.amount);
+                } else if (transaction.transaction_type === 'Withdraw') {
+                    totalExpenses += parseFloat(transaction.amount);
+                }
+            });
+
+            const totalNetProfit = totalIncome - totalExpenses;
+
+            // Debugging logs
+            console.log('Total Income:', totalIncome);
+            console.log('Total Expenses:', totalExpenses);
+            console.log('Total Net Profit:', totalNetProfit);
+
+            // Update the HTML elements with the calculated values
+            document.getElementById('totalIncome').textContent = `₱ ${totalIncome.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalIncomeText').textContent = `₱ ${totalIncome.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalExpenses').textContent = `₱ ${totalExpenses.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalExpensesText').textContent = `₱ ${totalExpenses.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalNetProfit').textContent = `₱ ${totalNetProfit.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            document.getElementById('totalNetProfitText').textContent = `₱ ${totalNetProfit.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+            // Set the balance to be equal to the net profit
+            document.getElementById('netProfitBalance').textContent = `₱ ${totalNetProfit.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+        }
+
+        function loadGoalSummary() {
+            fetch('backend/get_goals.php', {
+                method: 'GET',
+                credentials: 'same-origin' // Include cookies
+            })
+            .then(response => response.json())
+            .then(data => {
+                const goalSummaryTableBody = document.getElementById('goalSummaryTableBody');
+                goalSummaryTableBody.innerHTML = ''; // Clear existing rows
+
+                if (data.success && data.goals.length > 0) {
+                    data.goals.forEach(goal => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><i class="fa fa-edit" title="Edit" style="cursor: pointer;"></i></td>
+                            <td>${goal.goal_name}</td>
+                            <td>₱ ${goal.min_target_amount} - ₱ ${goal.max_target_amount}</td>
+                            <td>${goal.deadline}</td>
+                            <td>${goal.progress}%</td>
+                            <td><i class="fa fa-trash" title="Delete" style="cursor: pointer;" onclick="deleteGoal(${goal.id})"></i></td>
+                        `;
+                        goalSummaryTableBody.appendChild(row);
+                    });
+                } else {
+                    goalSummaryTableBody.innerHTML = `
+                        <tr>
+                            <td colspan="6" style="text-align: center;">No goals found</td>
+                        </tr>
+                    `;
+                }
+            })
+            .catch(error => console.error('Error loading goals:', error));
+        }
+
+        // Call this function after fetching transactions or when the page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGoalSummary(); // Load goals when the page is ready
         });
     </script>
 

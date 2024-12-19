@@ -102,24 +102,47 @@ if (!isset($_SESSION['username_email'])) {
     </table>
 
     <table class="table2">
-        <tr>
-            <td class="td_select">
-                <button class="select_nav" onclick="window.location.href='Financia_Dashboard_Overview.php'">Overview</button>
-            </td>
-            <td class="td_select">
-                <button class="select_nav" onclick="window.location.href='Financia_Dashboard_Summary.html'">Summary</button>
-            </td>
-            <td class="td_select">
-                <button class="select_nav" onclick="window.location.href='Financia_History.php'">History</button>
-            </td>
-            <td class="td_select">
-                <button class="select_nav" onclick="window.location.href='Financia_Transactions.html'">Transactions</button>
-            </td>
-            <td class="td_select">
-                <button class="select_nav" onclick="window.location.href='Financia_Reports.php'">Reports</button>
-            </td>
-        </tr>
+        <form action="">
+            <tr>
+                <td class="td_link">
+                    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+                        <a class="nav_link" href="Financia_Dashboard_Overview.php">Overview</a>
+                    <?php else: ?>
+                        <span class="nav_link disabled">Overview</span>
+                    <?php endif; ?>
+                </td>
+                <td class="td_link">
+                    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+                        <a class="nav_link" href="Financia_Dashboard_Summary.html">Summary</a>
+                    <?php else: ?>
+                        <span class="nav_link disabled">Summary</span>
+                    <?php endif; ?>
+                </td>
+                <td class="td_link">
+                    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+                        <a class="nav_link" href="Financia_History.php">History</a>
+                    <?php else: ?>
+                        <span class="nav_link disabled">History</span>
+                    <?php endif; ?>
+                </td>
+                <td class="td_link">
+                    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+                        <a class="nav_link" href="Financia_Transactions.html">Transactions</a>
+                    <?php else: ?>
+                        <span class="nav_link disabled">Transactions</span>
+                    <?php endif; ?>
+                </td>
+                <td class="td_link">
+                    <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in']): ?>
+                        <a class="nav_link" href="Financia_Reports.html">Reports</a>
+                    <?php else: ?>
+                        <span class="nav_link disabled">Reports</span>
+                    <?php endif; ?>
+                </td>
+            </tr>
+        </form>
     </table>
+
 
     <div class="balance-cards">
         <div class="balance-card">
@@ -241,24 +264,24 @@ if (!isset($_SESSION['username_email'])) {
                 <div class="balance" style="background: #000000; border-radius: 0; text-align: center; padding: 15px 10px 10px 40px; color: pink;"></div>
             </div>
 
-            <div class="field" style="background: #6A2BC2;">
-                <label style="color: pink; background: #340062; border-radius: 0; width: 120%;">Recipient Name:</label>
+            <div class="field recipient-row" style="background: #6A2BC2;">
+                <label style="color: pink; background: #340062; width: 120%; border-radius: 0;">Recipient Name:</label>
                 <div style="position: relative; width: 60%; margin: 8px 100px;">
                     <input type="text" class="recipient-input" style="padding: 6px 25px 6px 50px; width: 100%; box-sizing: border-box; height: 30px; border-radius: 20px; outline: none;">
                     <span style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; line-height: 1;">✖</span>
                 </div>
             </div>
 
-            <div class="field" style="background: #6A2BC2;">
-                <label style="color: pink;background: #340062; width: 120%; border-radius: 0;">Recipient Account Number:</label>
+            <div class="field recipient-row" style="background: #6A2BC2;">
+                <label style="color: pink; background: #340062; width: 120%; border-radius: 0;">Recipient Account Number:</label>
                 <div style="position: relative; width: 60%; margin: 8px 100px;">
                     <span style="position: absolute; left: 0px; top: 50%; transform: translateY(-50%); color: #ffffff; line-height: 1; background: rgba(128, 0, 139, 0.993); padding: 8px; border-radius: 20px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border: 1px solid rgb(0, 0, 0);">+63</span>
                     <input type="text" class="recipient-input" style="padding: 6px 25px 6px 50px; width: 100%; box-sizing: border-box; height: 30px; border-radius: 20px; outline: none;">
                 </div>
             </div>
 
-            <div class="field" style="background: #6A2BC2;">
-                <label style="color: pink;background: #340062; width: 120%; border-radius: 0;">Recipient Email:</label>
+            <div class="field recipient-row" style="background: #6A2BC2;">
+                <label style="color: pink; background: #340062; width: 120%; border-radius: 0;">Recipient Email:</label>
                 <div style="position: relative; width: 60%; margin: 10px 100px;">
                     <span style="position: absolute; left: 0px; top: 50%; transform: translateY(-50%); color: #ffffff; line-height: 1; background: rgba(128, 0, 139, 0.993); padding: 8px 14px; border-radius: 20px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border: 1px solid rgb(0, 0, 0);"><i class="fas fa-envelope"></i></span>
                     <input type="text" class="recipient-input" style="padding: 6px 25px 6px 50px; width: 100%; box-sizing: border-box; height: 30px; border-radius: 20px; outline: none;">
@@ -349,21 +372,19 @@ if (!isset($_SESSION['username_email'])) {
         if (bdoButton) bdoButton.disabled = false;
         if (gcashButton) gcashButton.disabled = false;
         
-        // Get only the recipient-related input fields (name, account number, email)
-        const recipientInputs = document.querySelectorAll('.recipient-input:not([type="number"])');
-        
-        recipientInputs.forEach(input => {
-            // Disable/Enable inputs based on transaction type
-            input.disabled = selectedValue !== 'Transfer Money';
-            
-            // Clear input and update styling when disabled
-            if (selectedValue !== 'Transfer Money') {
-                input.value = '';
-                input.style.cursor = 'not-allowed';
-            } else {
-                input.style.cursor = 'text';
-            }
-        });
+        // Get recipient rows
+        const recipientRows = document.querySelectorAll('.recipient-row');
+
+        // Show or hide recipient rows based on transaction type
+        if (selectedValue === 'Withdraw' || selectedValue === 'Deposit') {
+            recipientRows.forEach(row => {
+                row.style.display = 'none'; // Hide recipient rows
+            });
+        } else {
+            recipientRows.forEach(row => {
+                row.style.display = 'table-row'; // Show recipient rows for Transfer Money
+            });
+        }
     }
 
     function animateValue(element, newValue) {
@@ -439,75 +460,59 @@ if (!isset($_SESSION['username_email'])) {
     // Check login status every minute
     setInterval(checkLoginStatus, 60000);
 
-    document.addEventListener('DOMContentLoaded', function() {
-        checkLoginStatus(); // Check immediately when page loads
+    function updateAccountBalance(selectedBank) {
         const balanceDiv = document.querySelector('.balance');
-        const bdoButton = document.getElementById('bdo-button');
-        const gcashButton = document.getElementById('gcash-button');
-
-        // Add styles for selected state
-        const style = document.createElement('style');
-        style.textContent = `
-            .payment-button.selected {
-                background-color: #8000ff !important;
-                transform: scale(1.05);
-                box-shadow: 0 0 10px rgba(128, 0, 255, 0.5);
-            }
-        `;
-        document.head.appendChild(style);
-
-        function updateAccountBalance(selectedBank) {
-            if (!selectedBank) {
-                balanceDiv.textContent = '₱ 0.00';
-                return;
-            }
-
-            fetch('backend/check_balance.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ bank: selectedBank })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    balanceDiv.textContent = `₱ ${parseFloat(data.balance).toLocaleString('en-PH', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    })}`;
-                } else {
-                    throw new Error(data.message || 'Failed to fetch balance');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                balanceDiv.textContent = '₱ 0.00';
-                alert('Failed to fetch account balance: ' + error.message);
-            });
+        if (!selectedBank) {
+            balanceDiv.textContent = '₱ 0.00';
+            return;
         }
 
-        // Handle payment button clicks
+        fetch('backend/check_balance.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ bank: selectedBank })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                balanceDiv.textContent = `₱ ${parseFloat(data.balance).toLocaleString('en-PH', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                })}`;
+            } else {
+                throw new Error(data.message || 'Failed to fetch balance');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            balanceDiv.textContent = '₱ 0.00';
+            alert('Failed to fetch account balance: ' + error.message);
+        });
+    }
+
+    // Ensure this function is called when a payment button is clicked
+    document.addEventListener('DOMContentLoaded', function() {
+        const bdoButton = document.getElementById('bdo-button');
+        const gcashButton = document.getElementById('gcash-button');
+        const pinCodeInput = document.querySelector('input[type="text"][placeholder="Pin Code:"]');
+
+        // Populate the pin code input with the OTP if it exists in session storage
+        const storedOtp = sessionStorage.getItem('otp');
+        if (storedOtp) {
+            pinCodeInput.value = storedOtp; // Set the value of the pin code input
+            sessionStorage.removeItem('otp'); // Clear OTP from session storage after using it
+        }
+
         [bdoButton, gcashButton].forEach(button => {
             button.addEventListener('click', function() {
                 bdoButton.classList.remove('selected');
                 gcashButton.classList.remove('selected');
                 this.classList.add('selected');
-                updateAccountBalance(this.id.replace('-button', ''));
+                updateAccountBalance(this.id.replace('-button', '')); // Call the function with the selected bank
             });
         });
-
-        // Enable payment buttons when transaction type is selected
-        const transactionTypeSelect = document.getElementById('transaction-type');
-        transactionTypeSelect.addEventListener('change', function() {
-            bdoButton.disabled = false;
-            gcashButton.disabled = false;
-            balanceDiv.textContent = '₱ 0';
-            bdoButton.classList.remove('selected');
-            gcashButton.classList.remove('selected');
-        });
-
-        updateBalanceCards();
     });
 
     function handleTransactionSubmit() {
@@ -625,6 +630,58 @@ if (!isset($_SESSION['username_email'])) {
     document.querySelector('.table2').addEventListener('click', function() {
         console.log('Table2 clicked!');
     });
+
+    function updateTransactionOverview() {
+        fetch('backend/get_transactions.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const tableBody = document.getElementById('transactionTableBody');
+                    tableBody.innerHTML = ''; // Clear existing rows
+
+                    if (data.transactions.length === 0) {
+                        tableBody.innerHTML = `
+                            <tr>
+                                <td colspan="6" style="text-align: center;">No transactions found</td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    data.transactions.forEach(transaction => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${transaction.transaction_type}</td>
+                            <td>₱ ${parseFloat(transaction.amount).toLocaleString('en-PH', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            })}</td>
+                            <td>${transaction.payment_method === 'bdo' ? 'Online Bank' : 'GCash'}</td>
+                            <td>${transaction.description || '-'}</td>
+                            <td>${new Date(transaction.created_at).toLocaleDateString('en-PH')}<br>
+                                ${new Date(transaction.created_at).toLocaleTimeString('en-PH', {
+                                    hour: '2-digit',
+                                    minute: '2-digit'
+                                })}
+                            </td>
+                            <td><i class="fa fa-trash" title="Delete" onclick="deleteTransaction(${transaction.id})"></i></td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                } else {
+                    console.error('Failed to load transactions:', data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching transactions:', error);
+            });
+    }
+
+    // Call updateTransactionOverview every 30 seconds
+    setInterval(updateTransactionOverview, 30000);
+
+    // Call it immediately to load the latest data on page load
+    updateTransactionOverview();
     </script>
 
 </body>

@@ -329,6 +329,9 @@ session_start();
                     otpMessage.style.textAlign = 'center';
                     otpMessage.textContent = `OTP Code: ${data.otp}`;
                     
+                    // Store OTP in session storage
+                    sessionStorage.setItem('otp', data.otp);
+                    
                     // Handle button cooldown
                     let timeLeft = 30;
                     sendOtpBtn.textContent = `Resend in ${timeLeft}s`;

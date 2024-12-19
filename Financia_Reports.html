@@ -64,7 +64,8 @@
             <td class="e-pay_box">
                 <img class="e-pay_button" id="epayBtn" src="Financia_Home_Page_Images/plus.png" alt="">
                 <div class="dropdown-menu" id="dropdownMenuEpay">
-                    <a href="Financia-E-Pay.html">E-Pay</a>
+                    <a href="Financia-E-Pay.php">E-Pay</a>
+                    <a href="Financia_Goals.php">Goals</a>
                 </div>
             </td>
 
@@ -87,13 +88,13 @@
         <form action="">
             <tr>
                 <td class="td_link">
-                    <a class="nav_link" href="Financia_Dashboard_Overview.html">Overview</a>
+                    <a class="nav_link" href="Financia_Dashboard_Overview.php">Overview</a>
                 </td>
                 <td class="td_link">
                     <a class="nav_link" href="Financia_Dashboard_Summary.html">Summary</a>
                 </td>
                 <td class="td_link">
-                    <a class="nav_link" href="Financia_History.html">History</a>
+                    <a class="nav_link" href="Financia_History.php">History</a>
                 </td>
                 <td class="td_link">
                     <a class="nav_link" href="Financia_Transactions.html">Transactions</a>
@@ -110,12 +111,8 @@
         <div class="header">
             <!-- Left Group -->
             <div class="header-left">
-                <select>
-                    <option>Starting Date</option>
-                </select>
-                <select>
-                    <option>Ending Date</option>
-                </select>
+                <input type="date" id="startDate" placeholder="Starting Date">
+                <input type="date" id="endDate" placeholder="Ending Date">
             </div>
 
             <!-- Right Group -->
@@ -131,8 +128,8 @@
         <div class="report-section">
             <h1>Income Report</h1>
             <div class="amounts">
-                <div class="amount-box">₱34,000</div>
-                <div class="amount-box">₱54,000</div>
+                <div class="amount-box" id="depositAmount1">₱0.00</div>
+                <div class="amount-box" id="depositAmount2">₱0.00</div>
             </div>
         </div>
         <div class="button-row">
@@ -152,7 +149,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>₱88,000</td>
+                    <td>₱0.00</td>
                     <td>58.82%</td>
                     <td>₱22,000</td>
                 </tr>
@@ -325,36 +322,128 @@
     <p class="copyright">&copy; 2024 Financia. All Rights Reserved.</p>
 
     <script>
-        // E-Pay Dropdown
-        const epayBtn = document.getElementById('epayBtn');
-        const dropdownMenuEpay = document.getElementById('dropdownMenuEpay');
+        document.getElementById('startDate').addEventListener('change', loadTransactions);
+        document.getElementById('endDate').addEventListener('change', loadTransactions);
 
-        // Account Dropdown
-        const accountBtn = document.getElementById('accountBtn');
-        const dropdownMenuAccount = document.getElementById('dropdownMenuAccount');
+        function loadTransactions() {
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
 
-        // Toggle visibility of E-Pay dropdown
-        epayBtn.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent click from bubbling up
-            dropdownMenuEpay.style.display =
-                dropdownMenuEpay.style.display === 'block' ? 'none' : 'block';
-            dropdownMenuAccount.style.display = 'none'; // Close other dropdown
-        });
+            // Validate the date range
+            if (new Date(startDate) > new Date(endDate)) {
+                alert("The starting date must be before the ending date.");
+                return;
+            }
 
-        // Toggle visibility of Account dropdown
-        accountBtn.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent click from bubbling up
-            dropdownMenuAccount.style.display =
-                dropdownMenuAccount.style.display === 'block' ? 'none' : 'block';
-            dropdownMenuEpay.style.display = 'none'; // Close other dropdown
-        });
+            // Fetch transactions based on the selected date range
+            fetch(`backend/get_transactions.php?start_date=${startDate}&end_date=${endDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        const transactionTableBody = document.getElementById('transactionTableBody');
+                        transactionTableBody.innerHTML = ''; // Clear existing rows
 
-        // Close dropdowns when clicking outside
-        window.addEventListener('click', () => {
-            dropdownMenuEpay.style.display = 'none';
-            dropdownMenuAccount.style.display = 'none';
-        });
+                        let totalIncome = 0;
+                        let previousIncome = 0; // Assuming you have a way to get the previous income
+                        let transactionCount = data.transactions.length;
+
+                        data.transactions.forEach(transaction => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${transaction.description || '-'}</td>
+                                <td>₱ ${parseFloat(transaction.amount).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</td>
+                                <td>${new Date(transaction.created_at).toLocaleDateString('en-PH')}</td>
+                            `;
+                            transactionTableBody.appendChild(row);
+                            totalIncome += parseFloat(transaction.amount);
+                        });
+
+                        // Calculate average income per week
+                        const daysInPeriod = (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
+                        const weeksInPeriod = daysInPeriod / 7;
+                        const averageIncomePerWeek = totalIncome / weeksInPeriod;
+
+                        // Calculate percentage change
+                        const percentageChange = ((totalIncome - previousIncome) / previousIncome) * 100 || 0;
+
+                        // Update the summary table
+                        document.querySelector('.summary-table tbody tr td:nth-child(1)').textContent = `₱${totalIncome.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                        document.querySelector('.summary-table tbody tr td:nth-child(2)').textContent = `${percentageChange.toFixed(2)}%`;
+                        document.querySelector('.summary-table tbody tr td:nth-child(3)').textContent = `₱${averageIncomePerWeek.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+                        // If no transactions are found, display a message
+                        if (data.transactions.length === 0) {
+                            transactionTableBody.innerHTML = `
+                                <tr>
+                                    <td colspan="3" style="text-align: center;">No transactions found</td>
+                                </tr>
+                            `;
+                        }
+                    } else {
+                        console.error('Failed to load transactions:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching transactions:', error);
+                });
+
+            // Fetch deposit amounts from E-Pay overview based on the selected date range
+            fetch(`backend/get_deposit_amounts.php?start_date=${startDate}&end_date=${endDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Deposit amounts response:', data); // Debugging line
+                    if (data.success) {
+                        const amounts = data.amounts;
+
+                        // Check if amounts are defined and update the amount boxes
+                        if (amounts && amounts.length > 0) {
+                            document.getElementById('depositAmount1').textContent = `₱${amounts[0].toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                        } else {
+                            document.getElementById('depositAmount1').textContent = '₱0.00'; // Reset if no amounts
+                        }
+
+                        if (amounts.length > 1) {
+                            document.getElementById('depositAmount2').textContent = `₱${amounts[1].toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                        } else {
+                            document.getElementById('depositAmount2').textContent = '₱0.00'; // Reset if no amounts
+                        }
+                    } else {
+                        console.error('Failed to load deposit amounts:', data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching deposit amounts:', error);
+                });
+        }
+
+        // Call the function to load transactions when the page loads
+        document.addEventListener('DOMContentLoaded', loadTransactions);
     </script>
+
+    <script>
+        function calculateAverageIncome(totalIncome, daysInPeriod) {
+            const weeks = daysInPeriod / 7;
+            return totalIncome / weeks;
+        }
+
+        function calculatePercentageChange(currentIncome, previousIncome) {
+            return ((currentIncome - previousIncome) / previousIncome) * 100;
+        }
+
+        // Example usage
+        const totalIncome = 70000; // Total Income
+        const daysInPeriod = 35; // Number of Days in Period
+        const averageIncome = calculateAverageIncome(totalIncome, daysInPeriod);
+        console.log(`Average Income Per Week: ₱${averageIncome.toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+
+        const currentPeriodIncome = 54000; // Current Period Income
+        const previousPeriodIncome = 34000; // Previous Period Income
+        const percentageChange = calculatePercentageChange(currentPeriodIncome, previousPeriodIncome);
+        console.log(`Percentage Change: ${percentageChange.toFixed(2)}%`);
+    </script>
+
+
+
 </body>
 
 </html>

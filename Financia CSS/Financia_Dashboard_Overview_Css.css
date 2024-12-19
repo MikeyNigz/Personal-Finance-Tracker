@@ -177,7 +177,7 @@
 
     section {
         backdrop-filter: blur(10px);
-        background-color: rgb(255, 255, 255, 0.027);
+        background-color: rgb(90, 2, 233);
         border-top: 1px solid rgba(255, 255, 255, 0.4);
         border-left: 1px solid rgba(255, 255, 255, 0.3);
         box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.89);
